@@ -6,6 +6,7 @@
 #include "proc.h"
 #include "defs.h"
 #include "elf.h"
+#include "vm.c"
 
 static int loadseg(pde_t *, uint64, struct inode *, uint, uint);
 
