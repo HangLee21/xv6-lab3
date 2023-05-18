@@ -88,7 +88,7 @@ sys_pgaccess(void)
   }
   int res = 0;
   struct proc * p = myproc();
-  for(int i = 0; i < number; i++){
+  for(int i = 0; i < num; i++){
     int va = address + i * PGSIZE;
     int abit = pgaccess(p->pagetable, va);
     res = res | abit << i;
