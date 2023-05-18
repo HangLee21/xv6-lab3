@@ -705,24 +705,21 @@ procdump(void)
   }
 }
 
+// copy walkaddr()
 int 
-pgaccess(uint64 address, int number, uint64 buf){
-  struct proc* p = myproc();
-  if(p == 0) return -1;
-  pagetable_t pagetable = p->pagetable;
-  int ans = 0;
-    for (int i = 0; i < number; i++) {
-        pte_t *pte;
-        pte = walk(pagetable, address + (uint64)PGSIZE * i, 0);
-        if (pte != 0 && ((*pte) & PTE_A)) {
-            ans |= 1 << i;
-            // 检测到有访问后要清除PTE_A
-            // 得到pte_a的值hardware就肯定会去access那个页表
-            // 再access之后页表的pte_a就变成1了 我们需要人为把他恢复到我们access之的状态 
-            // 也就是说ptea的值不应该受到我们去读ptea这个操作的影响
-            *pte ^= PTE_A;  // clear PTE_A
-        }
-    }
-
-  return copyout(pagetable, buf, (char *)&ans, sizeof(int));
+pgaccess(pagetable_t pagetable, uint64 va){
+  pte_t *pte;
+  if(va >= MAXVA)
+    return 0;
+  pte = walk(pagetable, va, 0);
+  if(pte == 0)
+    return 0;
+  if((*pte & PTE_A) != 0){
+    // clear PTE_A
+    // 得到pte_a的值hardware就肯定会去access那个页表 再access之后页表的pte_a就变成1
+    // 我们需要人为把他恢复到我们access之的状态 也就是说ptea的值不应该受到我们去读ptea这个操作的影响
+    *pte = *pte & (~PTE_A);
+    return 1;
+  }
+  return 0;
 }

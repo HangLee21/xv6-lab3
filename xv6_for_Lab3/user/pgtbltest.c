@@ -14,7 +14,7 @@ main(int argc, char *argv[])
   pgaccess_test();
   printf("pgtbltest: all tests succeeded\n");
   exit(0);
-}
+} 
 
 char *testname = "???";
 

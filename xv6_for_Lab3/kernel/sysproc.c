@@ -75,13 +75,30 @@ int
 sys_pgaccess(void)
 {
   // lab pgtbl: your code here.
-  int num;
   uint64 address;
-  uint64 buffer;
+  int num;
+  int buf;
+  // 0 1 2 参数位 
   argaddr(0, &address);
   argint(1, &num);
-  argaddr(2, &buffer);
-  return pgaccess(address, num, buffer);
+  argint(2, &buf);
+  // set an upper limit on the number of pages that can be scanned
+  if(num > 32 || num < 0){
+    return -1;
+  }
+  int res = 0;
+  struct proc * p = myproc();
+  for(int i = 0; i < number; i++){
+    int va = address + i * PGSIZE;
+    int abit = pgaccess(p->pagetable, va);
+    res = res | abit << i;
+  }
+
+  if(copyout(p->pagetable, buf, (char*)res, sizeof(res) < 0)){
+    return -1;
+  }
+
+  return 0;
 }
 #endif
 
