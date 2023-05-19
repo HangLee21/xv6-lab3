@@ -1,2 +1,6 @@
-1. 
-2. 
+1.  syscall内函数可以优化，syscall需要进入kernel执行然后将数据传出至user
+    例如sysinfo,可将sysinfo的信息存入，user只需读取
+2.  page0: 主要是应用程序的代码段和数据段;
+    page1: guard page, 无物理地址实际映射, 用于溢出检测;
+    page2: 对应用户栈;
+    page3 to last page: heap, trapfram, trampoline

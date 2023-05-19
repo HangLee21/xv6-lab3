@@ -449,6 +449,7 @@ void vmprintlevel(pagetable_t pagetable, int level){
     if (level == 2) prevchar = ".. .. ..";
     for (int i = 0; i < 512; i++) {
         pte_t pte = pagetable[i];
+        // if valid
         if ((pte & PTE_V)) {
             //  this PTE points to a lower level page table.
             printf("%s%d: pte %p pa %p\n", prevchar, i, pte, PTE2PA(pte));
