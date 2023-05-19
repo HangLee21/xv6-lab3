@@ -74,6 +74,7 @@ sys_sleep(void)
 int
 sys_pgaccess(void)
 {
+  printf("hello");
   // lab pgtbl: your code here.
   uint64 address;
   int num;
