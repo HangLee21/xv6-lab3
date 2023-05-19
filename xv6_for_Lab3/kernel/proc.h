@@ -105,5 +105,5 @@ struct proc {
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
 
-  struct usyscall* usyscall;   // speed up syscall 
+  struct usyscall* usyscall;   // data page for usyscall.S
 };

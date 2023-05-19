@@ -90,6 +90,7 @@ sys_pgaccess(void)
   struct proc * p = myproc();
   for(int i = 0; i < num; i++){
     int va = address + i * PGSIZE;
+    // 计算PTE_A是否为1
     int abit = pgaccess(p->pagetable, va);
     res = res | abit << i;
   }

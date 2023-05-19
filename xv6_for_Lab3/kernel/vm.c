@@ -111,6 +111,7 @@ walkaddr(pagetable_t pagetable, uint64 va)
   pte_t *pte;
   uint64 pa;
 
+
   if(va >= MAXVA)
     return 0;
 
@@ -439,25 +440,27 @@ copyinstr(pagetable_t pagetable, char *dst, uint64 srcva, uint64 max)
 }
 
 void vmprintlevel(pagetable_t pagetable, int level){
+  if(level == 3)
+    return;
   char *prevchar = 0;
-    if (level == 2) prevchar = "..";
+  // 
+    if (level == 0) prevchar = "..";
     if (level == 1) prevchar = ".. ..";
-    if (level == 0) prevchar = ".. .. ..";
+    if (level == 2) prevchar = ".. .. ..";
     for (int i = 0; i < 512; i++) {
         pte_t pte = pagetable[i];
         if ((pte & PTE_V)) {
             //  this PTE points to a lower level page table.
             printf("%s%d: pte %p pa %p\n", prevchar, i, pte, PTE2PA(pte));
             uint64 child = PTE2PA(pte);
-            if (level != 0) {
-                vmprintlevel((pagetable_t)child, level - 1);
-            }
+            // 递归调用  
+            vmprintlevel((pagetable_t)child, level + 1);
         }
     }
 }
 
 void vmprint(pagetable_t pagetable){
   printf("page table %p\n", pagetable);
-  vmprintlevel(pagetable, 2);
+  vmprintlevel(pagetable, 0);
 } 
 

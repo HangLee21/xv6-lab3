@@ -217,10 +217,14 @@ proc_pagetable(struct proc *p)
 
   //speed up syscall
   if (mappages(pagetable, USYSCALL, PGSIZE, 
-              (uint64)(p->usyscall),PTE_R | PTE_U) < 0) {
+              (uint64)(p->usyscall),PTE_R | PTE_U) < 
+              
+              0) {
+        // 解除映射关系
         uvmunmap(pagetable, TRAMPOLINE, 1, 0);
         uvmunmap(pagetable, TRAPFRAME, 1, 0);
-        uvmunmap(pagetable, USYSCALL, 1, 0);
+        // tips:不加入 uvmunmap(pagetable, SYSCALL, 1, 0)
+        // 此处处理USYSCALL部分内存失败，没有映射成功下unmap会导致崩溃
         uvmfree(pagetable, 0);
         return 0;
     }
@@ -715,10 +719,9 @@ pgaccess(pagetable_t pagetable, uint64 va){
   if(pte == 0)
     return 0;
   if((*pte & PTE_A) != 0){
-    // clear PTE_A
     // 得到pte_a的值hardware就肯定会去access那个页表 再access之后页表的pte_a就变成1
     // 我们需要人为把他恢复到我们access之的状态 也就是说ptea的值不应该受到我们去读ptea这个操作的影响
-    *pte = *pte & (~PTE_A);
+   *pte ^= PTE_A;
     return 1;
   }
   return 0;
