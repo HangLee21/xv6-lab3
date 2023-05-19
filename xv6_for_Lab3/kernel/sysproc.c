@@ -74,7 +74,7 @@ sys_sleep(void)
 int
 sys_pgaccess(void)
 {
-  printf("hello");
+  // printf("hello");
   // lab pgtbl: your code here.
   uint64 address;
   int num;
@@ -96,7 +96,7 @@ sys_pgaccess(void)
     res = res | abit << i;
   }
 
-  if(copyout(p->pagetable, buf, (char*)&res, sizeof(res) < 0)){
+  if(copyout(p->pagetable, buf, (char*)&res, sizeof(res)) < 0){
     return -1;
   }
 
