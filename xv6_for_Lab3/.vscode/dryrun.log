@@ -61,9 +61,7 @@ gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -gdwarf-2 -DSOL_ -DLAB_ -MD -
 ϵͳ�Ҳ���ָ����·����
 
 gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -gdwarf-2 -DSOL_ -DLAB_ -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I.   -c -o kernel/proc.o kernel/proc.c
- 
 gcc    -c -o kernel/swtch.o kernel/swtch.S
- 
 gcc    -c -o kernel/trampoline.o kernel/trampoline.S
  
 'tr' �����ڲ����ⲿ���Ҳ���ǿ����еĳ���
@@ -92,10 +90,9 @@ gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -gdwarf-2 -DSOL_ -DLAB_ -MD -
 'tr' �����ڲ����ⲿ���Ҳ���ǿ����еĳ���
 ���������ļ���
 
-ϵͳ�Ҳ���ָ����·����
-
 gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -gdwarf-2 -DSOL_ -DLAB_ -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I.   -c -o kernel/sysproc.o kernel/sysproc.c
  
+ϵͳ�Ҳ���ָ����·����
 'tr' �����ڲ����ⲿ���Ҳ���ǿ����еĳ���
 ���������ļ���
 

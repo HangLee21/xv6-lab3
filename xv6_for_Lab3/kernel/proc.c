@@ -216,10 +216,9 @@ proc_pagetable(struct proc *p)
   }
 
   //speed up syscall
+  // 用户可访问 因此为PTE_R | PTE_U
   if (mappages(pagetable, USYSCALL, PGSIZE, 
-              (uint64)(p->usyscall),PTE_R | PTE_U) < 
-              
-              0) {
+              (uint64)(p->usyscall),PTE_R | PTE_U) < 0) {
         // 解除映射关系
         uvmunmap(pagetable, TRAMPOLINE, 1, 0);
         uvmunmap(pagetable, TRAPFRAME, 1, 0);

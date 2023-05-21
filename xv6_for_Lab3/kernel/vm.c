@@ -439,11 +439,16 @@ copyinstr(pagetable_t pagetable, char *dst, uint64 srcva, uint64 max)
   }
 }
 
+void vmprint(pagetable_t pagetable){
+  printf("page table %p\n", pagetable);
+  vmprintlevel(pagetable, 0);
+} 
+
 void vmprintlevel(pagetable_t pagetable, int level){
   if(level == 3)
     return;
   char *prevchar = 0;
-  // 
+  // depth
     if (level == 0) prevchar = "..";
     if (level == 1) prevchar = ".. ..";
     if (level == 2) prevchar = ".. .. ..";
@@ -459,9 +464,4 @@ void vmprintlevel(pagetable_t pagetable, int level){
         }
     }
 }
-
-void vmprint(pagetable_t pagetable){
-  printf("page table %p\n", pagetable);
-  vmprintlevel(pagetable, 0);
-} 
 
